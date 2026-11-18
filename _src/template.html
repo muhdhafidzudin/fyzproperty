@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FYZ PROPERTY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1B33;--navy2:#13284A;--gold:#C9A24A;--gold2:#E5C77E;--goldsoft:#F2E6C8;
+  --bg:#F6F3EE;--card:#FFFFFF;--ink:#0E1626;--mut:#5C6577;--line:#E6E0D6;
+  --r:18px;--ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:Manrope,system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--goldsoft);color:#7A5A16;padding:6px 12px;border-radius:99px}
+h1,h2,h3{margin:0;letter-spacing:-.025em;line-height:1.08;font-weight:800}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:12px 18px;border-radius:12px;transition:transform .2s var(--ease),background .2s}
+.btn:active{transform:scale(.97)}
+.btn-light{background:#fff;color:var(--navy)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold2)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy2)}
+.btn-ghost{color:#fff;border:1px solid rgba(255,255,255,.4)}
+.btn svg{width:16px;height:16px}
+.ico{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* NAV */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,backdrop-filter .3s,box-shadow .3s}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-weight:800;letter-spacing:.04em;font-size:18px;color:#fff;display:flex;align-items:center;gap:8px}
+.logo b{color:var(--gold2)}
+.links{display:flex;gap:28px;font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}
+.links a:hover{color:#fff}
+.nav.solid{background:rgba(11,27,51,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.06)}
+.nav .btn{padding:9px 14px;font-size:13px}
+.lang{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 9px;margin-right:10px}
+@media(max-width:820px){.links{display:none}}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:var(--navy);color:#fff}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease}
+.slide.on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 9s linear}
+.slide.on img{transform:scale(1)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,27,51,.55) 0%,rgba(11,27,51,0) 26%,rgba(11,27,51,0) 45%,rgba(11,27,51,.88) 100%)}
+.hero .in{position:absolute;inset:auto 0 0 0;z-index:2;padding-bottom:clamp(36px,7vh,72px)}
+.hero h1{font-size:clamp(38px,6.2vw,76px);max-width:13ch;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--gold2)}
+.hero p{max-width:440px;color:rgba(255,255,255,.82);font-size:clamp(14px,1.4vw,16px);line-height:1.6;margin:16px 0 24px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.hero .row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.stats{display:flex;gap:clamp(18px,3vw,40px)}
+.stat b{display:block;font-size:clamp(26px,3vw,36px);font-weight:800;color:#fff}
+.stat span{font-size:12px;color:rgba(255,255,255,.7);font-weight:600}
+.dots{display:flex;gap:6px;margin-top:28px}
+.dots i{width:22px;height:3px;border-radius:2px;background:rgba(255,255,255,.3);transition:background .3s,width .3s}
+.dots i.on{background:var(--gold2);width:40px}
+.reveal-word{display:inline-block;opacity:0;transform:translateY(24px);animation:up .9s var(--ease) forwards}
+@keyframes up{to{opacity:1;transform:none}}
+
+/* ABOUT (expanding image) */
+.about{padding:clamp(60px,9vw,110px) 0 0}
+.xwrap{position:relative;margin:0 auto;overflow:hidden;border-radius:28px;will-change:width,border-radius}
+.xwrap img{width:100%;height:clamp(420px,72vh,720px);object-fit:cover;transform:scale(1.08)}
+.xwrap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,27,51,0) 40%,rgba(11,27,51,.85))}
+.xtext{position:absolute;z-index:2;inset:auto 0 0 0;color:#fff;padding:clamp(22px,4vw,48px);display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end}
+.xtext h2{font-size:clamp(28px,3.6vw,46px)}
+.xtext h2 b{color:var(--gold2)}
+.xtext p{margin:0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.86);max-width:520px;justify-self:end}
+@media(max-width:760px){.xtext{grid-template-columns:1fr}.xtext p{justify-self:start}}
+
+/* SECTIONS */
+section.s{padding:clamp(64px,9vw,110px) 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:28px;flex-wrap:wrap}
+.head h2{font-size:clamp(28px,3.6vw,44px);margin-top:12px;max-width:16ch}
+.center{text-align:center}
+.center h2{margin:12px auto 10px;max-width:18ch;font-size:clamp(28px,3.6vw,46px)}
+.sub{color:var(--mut);font-size:15px;line-height:1.6;max-width:440px;margin:0 auto}
+
+/* FILTER + CARDS */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tab{padding:9px 15px;border-radius:99px;font-size:13px;font-weight:700;background:#fff;border:1px solid var(--line);color:var(--mut);transition:all .2s}
+.tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tab small{opacity:.6;margin-left:4px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:var(--r);padding:8px;box-shadow:0 1px 0 var(--line),0 10px 30px -18px rgba(11,27,51,.25);transition:transform .35s var(--ease),box-shadow .35s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);box-shadow:0 1px 0 var(--line),0 24px 40px -20px rgba(11,27,51,.35)}
+.ph{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;background:#e9e4da}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.card:hover .ph img{transform:scale(1.05)}
+.badge{position:absolute;left:10px;top:10px;background:rgba(11,27,51,.82);color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:99px;backdrop-filter:blur(6px)}
+.badge.projek{background:var(--gold);color:var(--navy)}
+.cb{padding:14px 10px 8px;display:flex;flex-direction:column;gap:4px;flex:1}
+.cb h3{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:1.3}
+.loc{font-size:12px;color:var(--mut);font-weight:500}
+.price{font-size:19px;font-weight:800;margin-top:6px;color:var(--navy)}
+.specs{display:flex;gap:14px;flex-wrap:wrap;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--mut);font-weight:600}
+.specs span{display:flex;align-items:center;gap:5px}
+.more{display:flex;justify-content:center;margin-top:28px}
+.card.hide{display:none}
+.fade{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.fade.in{opacity:1;transform:none}
+
+/* SERVICES ACCORDION */
+.svc{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(20px,4vw,56px);align-items:center;margin-top:40px}
+@media(max-width:860px){.svc{grid-template-columns:1fr}}
+.simg{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:1/1;background:#ddd}
+.simg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .7s ease,transform 1.2s var(--ease)}
+.simg img.on{opacity:1;transform:scale(1)}
+.acc{border-top:1px solid var(--line)}
+.ai{border-bottom:1px solid var(--line)}
+.aq{width:100%;display:flex;align-items:center;gap:12px;padding:18px 4px;font-size:16px;font-weight:700;text-align:left}
+.aq .chev{margin-left:auto;transition:transform .3s}
+.ai.open .chev{transform:rotate(180deg)}
+.aq .ico{width:18px;height:18px;color:var(--gold)}
+.aa{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease)}
+.ai.open .aa{grid-template-rows:1fr}
+.aa>div{overflow:hidden}
+.aa p{margin:0 0 18px 34px;color:var(--mut);font-size:14px;line-height:1.7;max-width:480px}
+
+/* AREAS */
+.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.areas{grid-template-columns:repeat(2,1fr)}}
+.area{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/3;color:#fff;display:block}
+.area img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.area:hover img{transform:scale(1.06)}
+.area::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,27,51,0) 35%,rgba(11,27,51,.85))}
+.area .at{position:absolute;z-index:2;left:16px;bottom:14px;right:16px}
+.area h3{font-size:clamp(16px,2vw,22px)}
+.area small{font-size:12px;font-weight:600;color:rgba(255,255,255,.8);display:block;margin-top:4px}
+.area em{position:absolute;z-index:2;left:12px;top:12px;font-style:normal;font-size:12px;font-weight:800;background:var(--gold);color:var(--navy);padding:5px 9px;border-radius:99px;white-space:nowrap}
+
+/* LOAN */
+.loan{background:var(--navy);color:#fff;border-radius:28px;padding:clamp(26px,5vw,56px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);position:relative;overflow:hidden}
+.loan::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-180px;top:-220px;background:radial-gradient(circle,rgba(201,162,74,.28),transparent 65%)}
+@media(max-width:860px){.loan{grid-template-columns:1fr}}
+.loan h2{font-size:clamp(28px,3.4vw,42px);margin:12px 0}
+.loan h2 b{color:var(--gold2)}
+.loan .lead{color:rgba(255,255,255,.75);font-size:14px;line-height:1.7;max-width:380px}
+.calc{position:relative;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.f label{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:8px}
+.f label output{color:var(--gold2)}
+input[type=range]{width:100%;accent-color:var(--gold);height:22px}
+.res{border-top:1px solid rgba(255,255,255,.14);padding-top:16px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.res small{font-size:12px;color:rgba(255,255,255,.65);font-weight:600;display:block}
+.res b{font-size:clamp(26px,3vw,34px);font-weight:800;color:var(--gold2)}
+.note{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,72px)}
+@media(max-width:860px){.faq{grid-template-columns:1fr}}
+.faq h2{font-size:clamp(30px,3.8vw,48px);margin:12px 0}
+.faq .acc{border:0;display:flex;flex-direction:column;gap:10px}
+.faq .ai{background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 18px}
+.faq .aq{font-size:15px;padding:18px 0}
+.faq .aa p{margin:0 0 18px 0}
+.agent{display:flex;align-items:center;gap:12px;margin:22px 0}
+.agent img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.agent b{display:block;font-size:15px}
+.agent span{font-size:13px;color:var(--mut)}
+
+/* CTA band */
+.band{position:relative;border-radius:28px;overflow:hidden;color:#fff;min-height:340px;display:flex;align-items:center}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,27,51,.92) 0%,rgba(11,27,51,.55) 60%,rgba(11,27,51,.2))}
+.band .t{position:relative;z-index:2;padding:clamp(26px,5vw,56px);max-width:620px}
+.band h2{font-size:clamp(28px,3.6vw,44px);margin-bottom:14px}
+.band p{color:rgba(255,255,255,.8);line-height:1.7;font-size:15px;margin:0 0 22px}
+
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,.75);padding:64px 0 36px;margin-top:clamp(64px,9vw,110px)}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px}
+@media(max-width:860px){.fgrid{grid-template-columns:1fr 1fr}}
+.fbig{font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1}
+.fbig b{color:var(--gold2)}
+footer h4{margin:0 0 12px;font-size:13px;color:#fff;letter-spacing:.04em}
+footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;font-size:14px}
+footer a:hover{color:var(--gold2)}
+.fbot{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-top:20px;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.cnt{position:absolute;right:10px;bottom:10px;display:flex;align-items:center;gap:4px;background:rgba(11,27,51,.75);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:99px}
+.cnt .ico{width:13px;height:13px}
+#dchip{margin:-8px 0 18px}
+.dchip{display:inline-flex;gap:8px;align-items:center;background:var(--goldsoft);color:#5c4410;font-weight:700;font-size:13px;padding:8px 14px;border-radius:99px}
+body.noscroll{overflow:hidden}
+.sheet{position:fixed;inset:0;z-index:100;pointer-events:none}
+.sheet.open{pointer-events:auto}
+.sh-bg{position:absolute;inset:0;background:rgba(6,14,28,.6);backdrop-filter:blur(4px);opacity:0;transition:opacity .3s}
+.sheet.open .sh-bg{opacity:1}
+.sh{position:absolute;left:50%;top:0;bottom:0;width:min(920px,100%);transform:translate(-50%,40px);opacity:0;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;transition:transform .4s var(--ease),opacity .3s}
+.sheet.open .sh{transform:translate(-50%,0);opacity:1}
+@media(min-width:900px){.sh{top:3vh;bottom:3vh;border-radius:24px}}
+.sh-x{position:absolute;right:14px;top:14px;z-index:5;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--navy);box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.sh-x .ico{width:20px;height:20px}
+.gal{position:relative;background:#0b1b33}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.track img{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:contain;scroll-snap-align:center;background:#0b1b33}
+.gnav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.88);display:grid;place-items:center;color:var(--navy)}
+.gl{left:12px}.gr{right:12px}
+@media(max-width:700px){.gnav{display:none}}
+.gcount{position:absolute;left:14px;bottom:12px;background:rgba(11,27,51,.75);color:#fff;font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding:10px 14px;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--line)}
+.thumbs::-webkit-scrollbar{display:none}
+.thumbs button{flex:0 0 72px;height:54px;border-radius:8px;overflow:hidden;opacity:.55;outline:2px solid transparent;outline-offset:-2px;transition:opacity .2s}
+.thumbs button.on{opacity:1;outline-color:var(--gold)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.sb{padding:20px clamp(18px,4vw,36px) 40px;display:flex;flex-direction:column;gap:10px}
+.sb h2{font-size:clamp(22px,3vw,30px);text-transform:uppercase;letter-spacing:.01em;margin-top:4px}
+.sb .loc{display:flex;gap:6px;align-items:flex-start;font-size:13px}
+.sb .loc .ico{margin-top:1px;color:var(--gold)}
+.price.big{font-size:clamp(24px,3vw,30px);margin:2px 0 4px}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.btn-wa{background:#25D366;color:#fff}
+.btn-line{border:1px solid var(--line);background:#fff;color:var(--navy)}
+.sb h4{margin:18px 0 4px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.spec{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin:0}
+.spec div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.spec dt{font-size:11px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.spec dd{margin:3px 0 0;font-size:14px;font-weight:700}
+.ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.5}
+.ul li{display:flex;gap:10px;align-items:flex-start}
+.ul .ico{margin-top:3px;color:var(--gold)}
+.near{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
+@media(max-width:600px){.near{grid-template-columns:1fr}}
+.back{align-self:flex-start;margin-top:22px}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:60;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transition:transform .2s}
+.wa-float:hover{transform:scale(1.07)}
+.wa-float svg{width:28px;height:28px;fill:#fff}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.fade{opacity:1;transform:none}.reveal-word{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#" data-go="top" class="logo">FYZ <b>PROPERTY</b></a>
+    <div class="links">
+      <a href="#" data-go="listing" data-t="nListing">Listing</a>
+      <a href="#" data-go="servis" data-t="nServis">Servis</a>
+      <a href="#" data-go="kawasan" data-t="nKawasan">Kawasan</a>
+      <a href="#" data-go="loan" data-t="nLoan">Kira Loan</a>
+      <a href="#" data-go="faq">FAQ</a>
+    </div>
+    <div style="display:flex;align-items:center">
+      <button class="lang" id="langBtn" type="button">EN</button>
+      <a class="btn btn-gold wa" target="_blank" rel="noopener"><span data-t="hubungi">Hubungi</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div id="slides"></div>
+  <div class="in"><div class="wrap">
+    <div class="row">
+      <div>
+        <h1 id="heroH1"></h1>
+        <p data-t="heroP">One Stop Centre hartanah di Kedah &amp; Perlis. Subsale, projek baru dan tanah — semua dalam satu tempat.</p>
+        <div class="cta">
+          <a href="#" data-go="listing" class="btn btn-light"><span data-t="lihatListing">Lihat listing</span> <svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost wa" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div></div>
+</header>
+
+<section class="about">
+  <div class="xwrap" id="xwrap">
+    <img id="aboutImg" alt="">
+    <div class="xtext">
+      <h2><span data-t="apaItu">Apa itu</span> <b>FYZ PROPERTY?</b></h2>
+      <p data-t="aboutP">Di FYZ PROPERTY, kami percaya cari rumah patut jadi pengalaman yang seronok — bukan memeningkan. Kami bantu anda di setiap langkah: dari cari rumah ikut bajet, semak kelayakan loan, sampai kunci di tangan.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="listing">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="pill">Listing</span><h2 data-t="listH">Rumah yang kena dengan gaya hidup anda.</h2></div>
+    </div>
+    <div class="tabs" id="tabs"></div><div id="dchip"></div>
+    <div class="grid" id="grid"></div>
+    <div class="more"><button class="btn btn-navy" id="moreBtn" type="button" data-t="tunjukLagi">Tunjuk lagi</button></div>
+  </div>
+</section>
+
+<section class="s" id="servis" style="background:#EFEAE1">
+  <div class="wrap">
+    <div class="center"><span class="pill" data-t="servisPill">Servis</span>
+      <h2 data-t="svcH">Bantu anda pindah dengan penuh yakin</h2>
+      <p class="sub" data-t="svcSub">Kami jaga setiap butiran dengan teliti, dari mula sampai habis.</p></div>
+    <div class="svc">
+      <div class="simg" id="simg"></div>
+      <div class="acc" id="svcAcc"></div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="kawasan">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="pill" data-t="kawasanPill">Kawasan</span><h2 data-t="areaH">Listing ikut daerah</h2></div>
+      <p class="sub" style="margin:0" data-t="areaSub">Kedah &amp; Perlis — pilih kawasan yang anda nak, kami tunjuk rumahnya.</p>
+    </div>
+    <div class="areas" id="areas"></div>
+  </div>
+</section>
+
+<section id="loan">
+  <div class="wrap">
+    <div class="loan">
+      <div style="position:relative">
+        <span class="pill" data-t="loanPill">Kalkulator</span>
+        <h2><span data-t="loanH1">Kira anggaran</span> <b data-t="loanH2">bayaran bulanan</b></h2>
+        <p class="lead" data-t="loanP">Main-main dengan harga, margin dan tempoh untuk dapat gambaran awal. Nak kiraan tepat ikut gaji dan komitmen anda? WhatsApp kami.</p>
+        <a class="btn btn-gold wa" target="_blank" rel="noopener" style="margin-top:18px"><span data-t="semakLayak">Semak kelayakan saya</span></a>
+      </div>
+      <div class="calc">
+        <div class="f"><label><span data-t="hargaRumah">Harga rumah</span><output id="oP"></output></label><input id="iP" type="range" min="100000" max="1000000" step="5000" value="300000"></div>
+        <div class="f"><label><span data-t="margin">Margin pinjaman</span><output id="oM"></output></label><input id="iM" type="range" min="70" max="100" step="5" value="90"></div>
+        <div class="f"><label><span data-t="kadar">Kadar faedah</span><output id="oR"></output></label><input id="iR" type="range" min="3" max="6" step="0.05" value="4.2"></div>
+        <div class="f"><label><span data-t="tempoh">Tempoh</span><output id="oY"></output></label><input id="iY" type="range" min="10" max="35" step="1" value="35"></div>
+        <div class="res"><div><small data-t="anggaran">Anggaran bayaran bulanan</small><b id="oPay"></b></div><div style="text-align:right"><small data-t="jumlahLoan">Jumlah pinjaman</small><span id="oL" style="font-weight:700"></span></div></div>
+        <div class="note" data-t="loanNote">Anggaran sahaja, tanpa insurans rumah (MRTA/MLTA). Kelulusan dan kadar sebenar bergantung pada bank / LPPSA.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="faq">
+  <div class="wrap faq">
+    <div>
+      <span class="pill">FAQ</span>
+      <h2 data-t="faqH">Semua yang anda perlu tahu</h2>
+      <p class="sub" style="margin:0" data-t="faqSub">Soalan yang selalu orang tanya. Tak jumpa jawapan? Tanya terus.</p>
+      <div class="agent"><img id="agentImg" alt=""><div><b>Hafidzudin</b><span id="waText"></span></div></div>
+      <a class="btn btn-navy wa" target="_blank" rel="noopener"><span data-t="tanya">Tanya sekarang</span> <svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="acc" id="faqAcc"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="band">
+      <img id="bandImg" alt="">
+      <div class="t">
+        <span class="pill">TikTok</span>
+        <h2 style="margin-top:12px" data-t="bandH">Tengok rumah dalam video dulu</h2>
+        <p data-t="bandP">House tour, update projek baru dan tips beli rumah — semua ada di TikTok kami.</p>
+        <a class="btn btn-light" id="ttBtn" target="_blank" rel="noopener">@dinpropertyy</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><div class="fbig">FYZ<br><b>PROPERTY</b></div><p style="font-size:14px;line-height:1.7;max-width:280px;margin-top:16px" data-t="fTag">One Stop Centre hartanah Kedah &amp; Perlis.</p></div>
+      <div><h4 data-t="navigasi">Navigasi</h4><ul><li><a href="#" data-go="listing">Listing</a></li><li><a href="#" data-go="servis" data-t="nServis">Servis</a></li><li><a href="#" data-go="kawasan" data-t="nKawasan">Kawasan</a></li><li><a href="#" data-go="loan" data-t="nLoan">Kira Loan</a></li><li><a href="#" data-go="faq">FAQ</a></li></ul></div>
+      <div><h4 data-t="kategori">Kategori</h4><ul id="fcats"></ul></div>
+      <div><h4 data-t="hubungi">Hubungi</h4><ul><li><a class="wa" target="_blank" rel="noopener">WhatsApp <span class="waPapar"></span></a></li><li><a id="ttLink" target="_blank" rel="noopener">TikTok @dinpropertyy</a></li><li>Hafidzudin</li></ul></div>
+    </div>
+    <div class="fbot"><span>© <span id="yr"></span> FYZ PROPERTY</span><span>WhatsApp <span class="waPapar"></span> · Hafidzudin</span></div>
+  </div>
+</footer>
+
+<a class="wa-float wa" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3Z"/></svg></a>
+
+<script>
+var D=/*DATA*/;
+(function(){
+"use strict";
+var S=D.settings, L=D.listings;
+var lang="ms";
+try{var nl=(navigator.languages&&navigator.languages[0])||navigator.language||"ms"; lang=/^(ms|id)/i.test(nl)?"ms":"en";}catch(e){}
+try{var saved=localStorage.getItem("fyzLang"); if(saved) lang=saved;}catch(e){}
+
+var EN={nListing:"Listings",navigasi:"Navigate",nServis:"Services",nKawasan:"Areas",nLoan:"Loan calculator",hubungi:"Contact",
+heroP:"Your One Stop Centre for property in Kedah & Perlis. Subsale, new projects and land — all in one place.",
+lihatListing:"View listings",apaItu:"What is",
+aboutP:"At FYZ PROPERTY, we believe finding a home should be exciting, not stressful. We guide you every step of the way — from finding a home within budget and checking your loan eligibility, all the way to getting your keys.",
+listH:"Discover homes tailored to your lifestyle.",lihatSemua:"View full catalog",tunjukLagi:"Show more",kurang:"Show less",
+servisPill:"Services",svcH:"Helping you move with complete confidence",svcSub:"We handle every detail with care, from beginning to end.",
+kawasanPill:"Areas",areaH:"Listings by district",areaSub:"Kedah & Perlis — pick your area and we'll show you the homes.",
+loanPill:"Calculator",loanH1:"Estimate your",loanH2:"monthly payment",loanP:"Play with the price, margin and tenure for a first idea. Want an exact figure based on your salary and commitments? WhatsApp us.",
+semakLayak:"Check my eligibility",hargaRumah:"Property price",margin:"Loan margin",kadar:"Interest rate",tempoh:"Tenure",anggaran:"Estimated monthly payment",jumlahLoan:"Loan amount",
+loanNote:"Estimate only, excluding home insurance (MRTA/MLTA). Actual approval and rates depend on the bank / LPPSA.",
+faqH:"Everything you need to know",faqSub:"The questions people ask most. Can't find yours? Just ask.",tanya:"Ask now",
+bandH:"See the house on video first",bandP:"House tours, new project updates and home-buying tips — all on our TikTok.",
+fTag:"Your One Stop Centre for property in Kedah & Perlis.",kategori:"Categories",
+semua:"All",projek:"New project",subsale:"Subsale",tanah:"Land",listingW:"listings",listing1:"listing",daerahW:"districts",tahun:"years",
+bilik:"bed",ciriH:"Highlights",dekatH:"Nearby",butiran:"Details",jenisL:"Type",keluasanL:"Size",peganganL:"Tenure",lotL:"Lot",waListing:"WhatsApp about this listing",salin:"Copy link",disalin:"Link copied",tutup:"Close",semuaListing:"All listings",bilikAir:"bath",tanyaHarga:"Ask for price"};
+var BM={semua:"Semua",projek:"Projek baru",subsale:"Subsale",tanah:"Tanah",kurang:"Tunjuk kurang",listingW:"listing",listing1:"listing",daerahW:"daerah",tahun:"tahun",bilik:"bilik",ciriH:"Kelebihan",dekatH:"Berdekatan",butiran:"Butiran",jenisL:"Jenis",keluasanL:"Keluasan",peganganL:"Pegangan",lotL:"Lot",waListing:"WhatsApp tentang listing ini",salin:"Salin link",disalin:"Link disalin",tutup:"Tutup",semuaListing:"Semua listing",bilikAir:"bilik air",tanyaHarga:"Tanya harga"};
+var bmCache={};
+function T(k){ if(lang==="en"&&EN[k]) return EN[k]; return BM[k]||bmCache[k]||k; }
+function F(l,k){ return (lang==="en"&&l.en&&l.en[k])?l.en[k]:l[k]; }
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
+function rm(n){return "RM"+Math.round(Number(n)).toLocaleString("en-MY");}
+function priceText(l){ if(l.hargaLabel) return F(l,"hargaLabel"); if(l.harga) return (l.hargaPrefix?(lang==="en"&&l.hargaPrefix==="Dari"?"From":l.hargaPrefix)+" ":"")+rm(l.harga)+(l.nego?(lang==="en"?" (Negotiable)":" (Nego)"):""); return T("tanyaHarga"); }
+function thumb(id){ return D.imgBase+"t/"+id+".jpg"; }
+function full(id){ return D.imgBase+id+".jpg"; }
+function waUrl(msg){ return "https://wa.me/"+S.wa+(msg?"?text="+encodeURIComponent(msg):""); }
+var waMsg=function(){return lang==="en"?"Hi, I'm interested in a property from FYZ PROPERTY.":"Salam, saya berminat dengan rumah dari FYZ PROPERTY.";};
+var ICON={bed:'<svg class="ico" viewBox="0 0 24 24"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7M3 14h18M7 9V6h4v3"/></svg>',
+bath:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3ZM6 12V6a2 2 0 0 1 4 0"/></svg>',
+area:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+chev:'<svg class="ico chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
+search:'<svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>',
+calc:'<svg class="ico" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M12 12h2M8 16h2M12 16h2M16 12v4"/></svg>',
+play:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z"/></svg>',
+key:'<svg class="ico" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/></svg>',
+cam:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+x:'<svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+l:'<svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
+r:'<svg class="ico" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>',
+pin:'<svg class="ico" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>',
+ok:'<svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>',
+share:'<svg class="ico" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+tag:'<svg class="ico" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>'};
+
+/* static text */
+function applyText(){
+  document.documentElement.lang=lang==="en"?"en":"ms";
+  document.querySelectorAll("[data-t]").forEach(function(el){
+    var k=el.getAttribute("data-t"); if(!(k in bmCache)) bmCache[k]=el.innerHTML;
+    el.innerHTML = lang==="en"&&EN[k] ? esc(EN[k]) : bmCache[k];
+  });
+  document.getElementById("langBtn").textContent = lang==="en"?"BM":"EN";
+  document.querySelectorAll(".wa").forEach(function(a){a.href=waUrl(waMsg());});
+  document.querySelectorAll(".waPapar").forEach(function(s){s.textContent=S.waPapar;});
+  document.getElementById("waText").textContent="WhatsApp "+S.waPapar;
+}
+
+/* HERO */
+var H=D.hero, sl=document.getElementById("slides"), dots=document.getElementById("dots");
+H.forEach(function(src,i){
+  var d=document.createElement("div"); d.className="slide"+(i===0?" on":"");
+  d.innerHTML='<img src="'+src+'" alt="" '+(i===0?'fetchpriority="high"':'loading="lazy"')+'>'; sl.appendChild(d);
+  var dot=document.createElement("i"); if(i===0) dot.className="on"; dots.appendChild(dot);
+});
+var cur=0, slides=sl.children, dd=dots.children;
+setInterval(function(){ slides[cur].classList.remove("on"); dd[cur].classList.remove("on"); cur=(cur+1)%slides.length; slides[cur].classList.add("on"); dd[cur].classList.add("on"); },6000);
+function heroTitle(){
+  var t = lang==="en" ? "Discover the perfect place to call <em>home</em>" : "Jumpa tempat yang betul-betul rasa macam <em>rumah</em>";
+  var parts=t.split(" "), h="";
+  parts.forEach(function(w,i){ h+='<span class="reveal-word" style="animation-delay:'+(0.15+i*0.07)+'s">'+w+'</span> '; });
+  document.getElementById("heroH1").innerHTML=h;
+}
+var daerahSet={}; L.forEach(function(l){daerahSet[l.daerah]=1;});
+function stats(){
+  var cats={projek:0,subsale:0,tanah:0}; L.forEach(function(l){cats[l.cat]=(cats[l.cat]||0)+1;});
+  document.getElementById("stats").innerHTML=
+   '<div class="stat"><b>'+L.length+'</b><span>'+T("listingW")+'</span></div>'+
+   '<div class="stat"><b>'+cats.projek+'</b><span>'+T("projek")+'</span></div>'+
+   '<div class="stat"><b>'+Object.keys(daerahSet).length+'</b><span>'+T("daerahW")+'</span></div>';
+}
+
+/* ABOUT expanding image */
+document.getElementById("aboutImg").src=D.about;
+var xw=document.getElementById("xwrap");
+function onScroll(){
+  var nav=document.getElementById("nav"); nav.classList.toggle("solid", window.scrollY>40);
+  var r=xw.getBoundingClientRect(), vh=window.innerHeight;
+  var p=Math.min(1,Math.max(0,(vh-r.top)/(vh*0.9)));
+  var vw=document.documentElement.clientWidth, start=Math.min(1240,vw)-Math.min(80,vw*0.08);
+  var w=start+(vw-start)*p;
+  xw.style.width=w+"px"; xw.style.borderRadius=(28*(1-p))+"px";
+  var img=xw.querySelector("img"); img.style.transform="scale("+(1.08-0.08*p)+")";
+}
+window.addEventListener("scroll",function(){requestAnimationFrame(onScroll);},{passive:true});
+window.addEventListener("resize",onScroll);
+
+/* LISTINGS */
+var filt="semua", dFilt="", showAll=false, PAGE=6;
+var order=["semua","projek","subsale","tanah"];
+function tabs(){
+  var c={semua:L.length}; L.forEach(function(l){c[l.cat]=(c[l.cat]||0)+1;});
+  document.getElementById("tabs").innerHTML=order.filter(function(k){return c[k];}).map(function(k){
+    return '<button type="button" class="tab'+(k===filt?' on':'')+'" data-k="'+k+'">'+T(k)+'<small>'+c[k]+'</small></button>';}).join("");
+}
+document.getElementById("dchip").addEventListener("click",function(e){ if(e.target.closest("#dclear")){ dFilt=""; cards(); } });
+document.getElementById("tabs").addEventListener("click",function(e){var b=e.target.closest(".tab"); if(!b) return; filt=b.dataset.k; showAll=false; tabs(); cards();});
+function cards(){
+  var list=L.filter(function(l){return (filt==="semua"||l.cat===filt)&&(!dFilt||l.daerah===dFilt);});
+  document.getElementById("dchip").innerHTML=dFilt?'<button type="button" class="dchip" id="dclear">'+esc(dFilt)+' <b>✕</b></button>':'';
+  var g=document.getElementById("grid");
+  g.innerHTML=list.map(function(l,i){
+    var sp=[];
+    if(l.bilik) sp.push('<span>'+ICON.bed+esc(l.bilik)+' '+T("bilik")+'</span>');
+    if(l.bilikAir) sp.push('<span>'+ICON.bath+esc(l.bilikAir)+' '+T("bilikAir")+'</span>');
+    if(l.keluasan) sp.push('<span>'+ICON.area+esc(F(l,"keluasan").replace(/^(Tanah|Land)\s*/,"").split(" · ")[0])+'</span>');
+    return '<a class="card fade'+(!showAll&&i>=PAGE?' hide':'')+'" href="#l-'+esc(l.id)+'">'+
+      '<div class="ph"><img src="'+thumb(l.foto[0])+'" alt="'+esc(l.tajuk)+'" loading="lazy"><span class="cnt">'+ICON.cam+l.foto.length+'</span><span class="badge '+l.cat+'">'+T(l.cat)+'</span></div>'+
+      '<div class="cb"><h3>'+esc(l.tajuk)+'</h3><div class="loc">'+esc(F(l,"jenis"))+' · '+esc(l.daerah)+', '+esc(l.negeri)+'</div>'+
+      '<div class="price">'+esc(priceText(l))+'</div><div class="specs">'+sp.join("")+'</div></div></a>';
+  }).join("");
+  var mb=document.getElementById("moreBtn"); mb.parentNode.style.display=list.length>PAGE?"flex":"none";
+  mb.textContent=showAll?T("kurang"):T("tunjukLagi");
+  observe(g.querySelectorAll(".fade"));
+}
+document.getElementById("moreBtn").addEventListener("click",function(){ var was=showAll; showAll=!showAll; cards(); if(was) document.getElementById("listing").scrollIntoView(); });
+
+/* SERVICES */
+var SVC=[
+ {i:"search",img:0,bm:["Cari rumah ikut bajet","Subsale, projek baru dan tanah di Kedah & Perlis — kami tapis ikut kawasan, bajet dan keperluan keluarga anda."],en:["Find a home within budget","Subsale, new projects and land across Kedah & Perlis — filtered by area, budget and your family's needs."]},
+ {i:"calc",img:1,bm:["Semak kelayakan loan","Kami bantu kira anggaran pinjaman LPPSA atau bank lebih awal, supaya anda tahu bajet sebenar sebelum buat keputusan."],en:["Check your loan eligibility","We help estimate your LPPSA or bank financing early, so you know your real budget before deciding."]},
+ {i:"play",img:2,bm:["Video tour & tour 360°","Tengok setiap sudut rumah dari telefon dulu sebelum datang viewing. Jimat masa, jimat minyak."],en:["Video & 360° tours","See every corner of the house on your phone before coming for a viewing. Save time and fuel."]},
+ {i:"key",img:3,bm:["Dari tempahan sampai kunci","Kami pandu setiap langkah — tempahan, dokumen, loan, hingga kunci rumah di tangan anda."],en:["From booking to keys","We guide every step — booking, paperwork, financing, right up to the keys in your hand."]},
+ {i:"tag",img:4,bm:["Jual rumah anda","Nak lepaskan rumah? Kami pasarkan dengan poster, video dan katalog online yang menarik perhatian pembeli."],en:["Sell your property","Looking to sell? We market it with posters, videos and an online catalog that grabs buyers' attention."]}
+];
+var simg=document.getElementById("simg");
+D.svc.forEach(function(src,i){var im=document.createElement("img"); im.src=src; im.alt=""; im.loading="lazy"; if(i===0) im.className="on"; simg.appendChild(im);});
+function accHTML(items,open,withIcon){
+  return items.map(function(it,i){var t=it[lang]||it.bm;
+    return '<div class="ai'+(i===open?' open':'')+'"><button type="button" class="aq">'+(withIcon?ICON[it.i]:'')+'<span>'+esc(t[0])+'</span>'+ICON.chev+'</button><div class="aa"><div><p>'+esc(t[1])+'</p></div></div></div>';}).join("");
+}
+var svcOpen=0, faqOpen=0;
+function svc(){ var a=document.getElementById("svcAcc"); a.innerHTML=accHTML(SVC,svcOpen,true); }
+document.getElementById("svcAcc").addEventListener("click",function(e){
+  var b=e.target.closest(".aq"); if(!b) return; var i=[].indexOf.call(this.children,b.parentNode);
+  svcOpen = svcOpen===i?-1:i; [].forEach.call(this.children,function(c,j){c.classList.toggle("open",j===svcOpen);});
+  if(svcOpen>=0){ [].forEach.call(simg.children,function(im,j){im.classList.toggle("on",j===SVC[svcOpen].img);}); }
+});
+
+/* AREAS */
+document.getElementById("areas").addEventListener("click",function(e){var a=e.target.closest(".area"); if(!a) return; e.preventDefault(); dFilt=a.dataset.d; filt="semua"; showAll=true; tabs(); cards(); goTo("listing");});
+function areas(){
+  var m={}; L.forEach(function(l){ var k=l.daerah; if(!m[k]) m[k]={n:0,negeri:l.negeri,img:thumb(l.foto[0]),cats:{}}; m[k].n++; m[k].cats[l.cat]=1; });
+  var keys=Object.keys(m).sort(function(a,b){return m[b].n-m[a].n;});
+  if(D.areaImg) keys.forEach(function(k){ if(D.areaImg[k]) m[k].img=D.areaImg[k]; });
+  document.getElementById("areas").innerHTML=keys.map(function(k){var a=m[k];
+    return '<a class="area fade" href="#" data-d="'+esc(k)+'"><img src="'+a.img+'" alt="" loading="lazy"><em>'+a.n+' '+(a.n===1?T("listing1"):T("listingW"))+'</em><div class="at"><h3>'+esc(k)+'</h3><small>'+esc(a.negeri)+' · '+Object.keys(a.cats).map(T).join(", ")+'</small></div></a>';}).join("");
+  observe(document.querySelectorAll("#areas .fade"));
+}
+
+/* LOAN */
+function loan(){
+  var P=+iP.value,M=+iM.value,R=+iR.value,Y=+iY.value, Lm=P*M/100, r=R/1200, n=Y*12;
+  var pay = r? Lm*r/(1-Math.pow(1+r,-n)) : Lm/n;
+  oP.textContent=rm(P); oM.textContent=M+"%"; oR.textContent=R.toFixed(2)+"%"; oY.textContent=Y+" "+T("tahun");
+  oPay.textContent=rm(pay); oL.textContent=rm(Lm);
+}
+var iP=document.getElementById("iP"),iM=document.getElementById("iM"),iR=document.getElementById("iR"),iY=document.getElementById("iY"),
+ oP=document.getElementById("oP"),oM=document.getElementById("oM"),oR=document.getElementById("oR"),oY=document.getElementById("oY"),oPay=document.getElementById("oPay"),oL=document.getElementById("oL");
+[iP,iM,iR,iY].forEach(function(x){x.addEventListener("input",loan);});
+
+/* FAQ */
+var FAQ=[
+ {bm:["Kawasan mana yang FYZ PROPERTY cover?","Kedah dan Perlis — antaranya Kota Setar, Kuala Muda (Sungai Petani), Kubang Pasu, Pendang, Baling dan Kangar. Kawasan lain pun boleh tanya."],en:["Which areas does FYZ PROPERTY cover?","Kedah and Perlis — including Kota Setar, Kuala Muda (Sungai Petani), Kubang Pasu, Pendang, Baling and Kangar. Ask us about other areas too."]},
+ {bm:["Apa beza projek, subsale dan tanah?","Projek ialah rumah baru terus dari pemaju (selalunya ada rebate). Subsale ialah rumah yang dijual semula oleh pemilik. Tanah pula lot kosong untuk bina rumah sendiri atau pelaburan."],en:["What's the difference between project, subsale and land?","A project is a new home sold directly by the developer (often with rebates). A subsale is a home resold by its owner. Land is an empty lot to build your own home or invest."]},
+ {bm:["Boleh guna LPPSA atau loan bank?","Kebanyakan listing boleh guna LPPSA, loan bank atau tunai. Setiap listing berbeza — WhatsApp kami untuk semak listing yang anda minat."],en:["Can I use LPPSA or a bank loan?","Most listings accept LPPSA, bank financing or cash. Each listing differs — WhatsApp us to check the one you like."]},
+ {bm:["Macam mana nak buat temujanji viewing?","WhatsApp kami dengan nama listing yang anda minat, dan kami aturkan masa yang sesuai untuk anda."],en:["How do I book a viewing?","WhatsApp us with the listing you're interested in, and we'll arrange a time that suits you."]},
+ {bm:["Saya nak jual rumah, boleh bantu?","Boleh. Hantar butiran dan gambar rumah melalui WhatsApp, kami bantu pasarkan kepada pembeli."],en:["I want to sell my house — can you help?","Yes. Send us the details and photos via WhatsApp and we'll help market it to buyers."]}
+];
+function faq(){ document.getElementById("faqAcc").innerHTML=accHTML(FAQ,faqOpen,false); }
+document.getElementById("faqAcc").addEventListener("click",function(e){
+  var b=e.target.closest(".aq"); if(!b) return; var i=[].indexOf.call(this.children,b.parentNode);
+  faqOpen = faqOpen===i?-1:i; [].forEach.call(this.children,function(c,j){c.classList.toggle("open",j===faqOpen);});
+});
+
+/* misc */
+document.getElementById("agentImg").src=S.foto;
+document.getElementById("bandImg").src=D.band;
+var tt="https://www.tiktok.com/@"+S.tiktok; document.getElementById("ttBtn").href=tt; document.getElementById("ttLink").href=tt;
+document.getElementById("yr").textContent=new Date().getFullYear();
+function fcats(){ document.getElementById("fcats").innerHTML=["projek","subsale","tanah"].map(function(k){return '<li><a href="#" data-cat="'+k+'">'+T(k)+'</a></li>';}).join(""); }
+document.getElementById("fcats").addEventListener("click",function(e){var a=e.target.closest("a"); if(!a) return; e.preventDefault(); filt=a.dataset.cat; dFilt=""; showAll=false; tabs(); cards(); goTo("listing");});
+
+/* reveal on scroll */
+var io = "IntersectionObserver" in window ? new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target);} });},{rootMargin:"0px 0px -8% 0px"}) : null;
+function observe(nodes){ [].forEach.call(nodes,function(n,i){ n.style.transitionDelay=(i%3)*80+"ms"; if(io) io.observe(n); else n.classList.add("in"); }); }
+
+
+/* NAV without hash */
+function goTo(id){ var el=id==="top"?null:document.getElementById(id); if(id!=="top"&&!el) return; var y=id==="top"?0:el.getBoundingClientRect().top+window.pageYOffset-60; window.scrollTo({top:y,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var a=e.target.closest("[data-go]"); if(!a) return; e.preventDefault(); if(dEl&&dEl.classList.contains("open")) closeDetail(); goTo(a.dataset.go); });
+
+/* DETAIL */
+var dEl=null, gi=0, baseTitle=document.title;
+function byId(id){ for(var i=0;i<L.length;i++) if(L[i].id===id) return L[i]; return null; }
+function siteUrl(){ return location.href.split("#")[0]; }
+function showDetail(id){
+  var l=byId(id); if(!l){ closeDetail(); return; }
+  if(!dEl){ dEl=document.createElement("div"); dEl.className="sheet"; document.body.appendChild(dEl); }
+  document.body.classList.add("noscroll"); gi=0;
+  var specs=[[T("jenisL"),F(l,"jenis")],[T("bilik"),l.bilik],[T("bilikAir"),l.bilikAir],[T("keluasanL"),F(l,"keluasan")],[T("peganganL"),l.pegangan],[T("lotL"),l.lot]].filter(function(x){return x[1];});
+  var ciri=F(l,"ciri")||[], dekat=F(l,"dekat")||[];
+  var loc=[l.kawasan,(l.daerah!==l.negeri&&(l.kawasan||"").indexOf(l.daerah)<0)?l.daerah:"",l.negeri].filter(Boolean).join(", ");
+  var msg=(lang==="en"?"Hi, I'm interested in ":"Salam, saya berminat dengan ")+l.tajuk+" ("+priceText(l)+")\n"+siteUrl()+"#l-"+l.id;
+  dEl.innerHTML='<div class="sh-bg" data-close></div><article class="sh" role="dialog" aria-modal="true" aria-label="'+esc(l.tajuk)+'">'+
+   '<button type="button" class="sh-x" data-close aria-label="'+T("tutup")+'">'+ICON.x+'</button>'+
+   '<div class="gal"><div class="track" id="track">'+l.foto.map(function(f,i){return '<img src="'+full(f)+'" alt="'+esc(l.tajuk)+' '+(i+1)+'"'+(i>1?' loading="lazy"':'')+'>';}).join("")+'</div>'+
+   (l.foto.length>1?'<button type="button" class="gnav gl" data-g="-1" aria-label="prev">'+ICON.l+'</button><button type="button" class="gnav gr" data-g="1" aria-label="next">'+ICON.r+'</button>':'')+
+   '<span class="gcount" id="gcount">1 / '+l.foto.length+'</span></div>'+
+   '<div class="thumbs" id="thumbs">'+l.foto.map(function(f,i){return '<button type="button" data-i="'+i+'"'+(i===0?' class="on"':'')+'><img src="'+thumb(f)+'" alt="" loading="lazy"></button>';}).join("")+'</div>'+
+   '<div class="sb"><span class="badge '+l.cat+'" style="position:static;align-self:flex-start">'+T(l.cat)+'</span>'+
+   '<h2>'+esc(l.tajuk)+'</h2><div class="loc">'+ICON.pin+'<span>'+esc(loc)+'</span></div>'+
+   '<div class="price big">'+esc(priceText(l))+'</div>'+
+   '<div class="acts"><a class="btn btn-wa" target="_blank" rel="noopener" href="'+esc(waUrl(msg))+'">'+T("waListing")+'</a><button type="button" class="btn btn-line" id="copyL">'+ICON.share+' <span>'+T("salin")+'</span></button></div>'+
+   '<h4>'+T("butiran")+'</h4><dl class="spec">'+specs.map(function(x){return '<div><dt>'+esc(x[0])+'</dt><dd>'+esc(x[1])+'</dd></div>';}).join("")+'</dl>'+
+   (ciri.length?'<h4>'+T("ciriH")+'</h4><ul class="ul">'+ciri.map(function(c){return '<li>'+ICON.ok+'<span>'+esc(c)+'</span></li>';}).join("")+'</ul>':'')+
+   (dekat.length?'<h4>'+T("dekatH")+'</h4><ul class="ul near">'+dekat.map(function(c){return '<li>'+ICON.pin+'<span>'+esc(c)+'</span></li>';}).join("")+'</ul>':'')+
+   '<button type="button" class="btn btn-navy back" data-close>'+ICON.l+' '+T("semuaListing")+'</button>'+
+   '</div></article>';
+  requestAnimationFrame(function(){ dEl.classList.add("open"); var sh=dEl.querySelector(".sh"); if(sh) sh.scrollTop=0; });
+  var tr=dEl.querySelector("#track");
+  tr.addEventListener("scroll",function(){ var i=Math.round(tr.scrollLeft/tr.clientWidth); if(i!==gi){ gi=i; syncG(l); } },{passive:true});
+  document.title=l.tajuk+" | FYZ PROPERTY";
+}
+function syncG(l){ var c=dEl.querySelector("#gcount"); if(c) c.textContent=(gi+1)+" / "+l.foto.length; [].forEach.call(dEl.querySelectorAll("#thumbs button"),function(b,i){ b.classList.toggle("on",i===gi); if(i===gi){ var w=b.parentNode; w.scrollTo({left:b.offsetLeft-w.clientWidth/2+b.clientWidth/2,behavior:"smooth"}); } }); }
+function gTo(i){ var tr=dEl.querySelector("#track"); var n=tr.children.length; gi=(i+n)%n; tr.scrollTo({left:gi*tr.clientWidth,behavior:"smooth"}); }
+function closeDetail(){
+  if(dEl){ dEl.classList.remove("open"); var d=dEl; setTimeout(function(){ if(!d.classList.contains("open")) d.innerHTML=""; },350); }
+  document.body.classList.remove("noscroll"); document.title=baseTitle;
+  if(location.hash){ try{ history.replaceState(null,"",siteUrl()); }catch(e){} }
+}
+document.addEventListener("click",function(e){
+  if(!dEl||!dEl.classList.contains("open")) return;
+  if(e.target.closest("[data-close]")){ e.preventDefault(); closeDetail(); return; }
+  var g=e.target.closest("[data-g]"); if(g){ gTo(gi+(+g.dataset.g)); return; }
+  var th=e.target.closest("#thumbs button"); if(th){ gTo(+th.dataset.i); return; }
+  if(e.target.closest("#copyL")){ var u=location.href; var s=dEl.querySelector("#copyL span");
+    var done=function(){ s.textContent=T("disalin"); setTimeout(function(){ s.textContent=T("salin"); },1800); };
+    var fail=function(){ s.textContent=u; };
+    try{ navigator.clipboard.writeText(u).then(done,fail); }catch(err){ fail(); } }
+});
+document.addEventListener("keydown",function(e){ if(!dEl||!dEl.classList.contains("open")) return; if(e.key==="Escape") closeDetail(); if(e.key==="ArrowLeft") gTo(gi-1); if(e.key==="ArrowRight") gTo(gi+1); });
+function route(){ var h=location.hash; if(h.indexOf("#l-")===0) showDetail(decodeURIComponent(h.slice(3))); else if(dEl&&dEl.classList.contains("open")) closeDetail(); }
+window.addEventListener("hashchange",route);
+
+function renderAll(){ applyText(); heroTitle(); stats(); tabs(); cards(); svc(); areas(); loan(); faq(); fcats(); }
+document.getElementById("langBtn").addEventListener("click",function(){ lang = lang==="en"?"ms":"en"; try{localStorage.setItem("fyzLang",lang);}catch(e){} renderAll(); route(); });
+renderAll(); onScroll(); route();
+if(location.hash && !/^#l-/.test(location.hash)){ var sec=location.hash.slice(1); try{ history.replaceState(null,"",siteUrl()); }catch(e){} setTimeout(function(){ goTo(sec); },50); }
+})();
+</script>
+</body>
+</html>
