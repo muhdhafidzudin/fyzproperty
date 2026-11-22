@@ -439,7 +439,7 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){retur
 function rm(n){return "RM"+Math.round(Number(n)).toLocaleString("en-MY");}
 function priceText(l){ if(l.hargaLabel) return F(l,"hargaLabel"); if(l.harga) return (l.hargaPrefix?(lang==="en"&&l.hargaPrefix==="Dari"?"From":l.hargaPrefix)+" ":"")+rm(l.harga)+(l.nego?(lang==="en"?" (Negotiable)":" (Nego)"):""); return T("tanyaHarga"); }
 function thumb(id){ return D.imgBase+"t/"+id+".jpg"; }
-function full(id){ return D.imgBase+id+".jpg"; }
+function full(id){ return D.imgBase+id+".jpg"; } function med(id){ return D.imgBase+"m/"+id+".jpg"; }
 function waUrl(msg){ return "https://wa.me/"+S.wa+(msg?"?text="+encodeURIComponent(msg):""); }
 var waMsg=function(){return lang==="en"?"Hi, I'm interested in a property from FYZ PROPERTY.":"Salam, saya berminat dengan rumah dari FYZ PROPERTY.";};
 var ICON={bed:'<svg class="ico" viewBox="0 0 24 24"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7M3 14h18M7 9V6h4v3"/></svg>',
@@ -630,7 +630,7 @@ function showDetail(id){
   var msg=(lang==="en"?"Hi, I'm interested in ":"Salam, saya berminat dengan ")+l.tajuk+" ("+priceText(l)+")\n"+siteUrl()+"#l-"+l.id;
   dEl.innerHTML='<div class="sh-bg" data-close></div><article class="sh" role="dialog" aria-modal="true" aria-label="'+esc(l.tajuk)+'">'+
    '<button type="button" class="sh-x" data-close aria-label="'+T("tutup")+'">'+ICON.x+'</button>'+
-   '<div class="gal"><div class="track" id="track">'+l.foto.map(function(f,i){return '<img src="'+full(f)+'" alt="'+esc(l.tajuk)+' '+(i+1)+'"'+(i>1?' loading="lazy"':'')+'>';}).join("")+'</div>'+
+   '<div class="gal"><div class="track" id="track">'+l.foto.map(function(f,i){return '<img src="'+med(f)+'" alt="'+esc(l.tajuk)+' '+(i+1)+'"'+(i>1?' loading="lazy"':'')+'>';}).join("")+'</div>'+
    (l.foto.length>1?'<button type="button" class="gnav gl" data-g="-1" aria-label="prev">'+ICON.l+'</button><button type="button" class="gnav gr" data-g="1" aria-label="next">'+ICON.r+'</button>':'')+
    '<span class="gcount" id="gcount">1 / '+l.foto.length+'</span><button type="button" class="gfull" id="gfull" aria-label="fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div>'+
    '<div class="thumbs" id="thumbs">'+l.foto.map(function(f,i){return '<button type="button" data-i="'+i+'"'+(i===0?' class="on"':'')+'><img src="'+thumb(f)+'" alt="" loading="lazy"></button>';}).join("")+'</div>'+
