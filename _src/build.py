@@ -3,10 +3,10 @@ Images live in img/<id>.jpg (full) and img/t/<id>.jpg (thumb). Run: python3 _src
 import json,os
 R=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 S=json.load(open(os.path.join(R,'_src/site.json')))
-f=lambda i:'img/'+i+'.jpg'
+f=lambda i:'img/d/'+i+'.jpg'  # gambar hiasan: dicrop bawah supaya no fon watermark tak nampak (buat dengan _src/deco.py)
 D={'settings':S['settings'],'listings':S['listings'],'imgBase':'img/',
    'hero':[f(i) for i in S['hero']],'about':f(S['about']),'svc':[f(i) for i in S['svc']],'band':f(S['band']),
-   'areaImg':{k:'img/t/'+v+'.jpg' for k,v in S['areaImg'].items()}}
+   'areaImg':{k:f(v) for k,v in S['areaImg'].items()}}
 url='https://muhdhafidzudin.github.io/fyzproperty/'
 desc='FYZ PROPERTY — One Stop Centre hartanah Kedah & Perlis. Rumah subsale, projek baru dan tanah di Kota Setar, Sungai Petani, Kubang Pasu, Pendang, Baling & Kangar. WhatsApp 012-569 0675.'
 head=f'''<title>FYZ PROPERTY | Rumah Dijual Kedah &amp; Perlis — Subsale, Projek Baru, Tanah</title>
