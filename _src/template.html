@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" class="t3">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FYZ PROPERTY</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#0B1B33;--navy2:#13284A;--gold:#C9A24A;--gold2:#E5C77E;--goldsoft:#F2E6C8;
@@ -255,9 +255,90 @@ body.noscroll{overflow:hidden}
 .wa-float:hover{transform:scale(1.07)}
 .wa-float svg{width:28px;height:28px;fill:#fff}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.fade{opacity:1;transform:none}.reveal-word{opacity:1;transform:none}}
+
+/* ===== BULB / DARK MODE ===== */
+.bulb{position:fixed;z-index:60;right:84px;bottom:22px;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--navy);border:1px solid rgba(201,162,74,.45);box-shadow:0 10px 26px -10px rgba(0,0,0,.5);opacity:.6;transition:opacity .25s;transform-origin:50% -18px}
+.bulb:hover,.bulb:focus-visible,.bulb.swing{opacity:1}
+html:not(.light) .bulb{background:#14120E;border-color:rgba(201,162,74,.5)}
+.bulb svg{width:22px;height:22px;overflow:visible}
+.bulb .glass-b{fill:rgba(255,236,170,.95);stroke:#fff;stroke-width:1.4;transition:fill .25s,filter .25s}
+.bulb .base{fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round}
+.bulb .fil{fill:none;stroke:#B8860B;stroke-width:1.2;stroke-linecap:round;transition:stroke .25s}
+.bulb .ray{stroke:var(--gold2);stroke-width:1.6;stroke-linecap:round;transition:opacity .25s,transform .25s;transform-origin:12px 10px}
+.bulb .glass-b{filter:drop-shadow(0 0 6px rgba(255,214,102,.95))}
+html:not(.light) .bulb .glass-b{fill:rgba(255,255,255,.08);filter:none}
+html:not(.light) .bulb .fil{stroke:rgba(255,255,255,.45)}
+html:not(.light) .bulb .ray{opacity:0;transform:scale(.6)}
+.bulb.swing{animation:swing .9s cubic-bezier(.3,.6,.3,1)}
+@keyframes swing{0%{transform:rotate(0)}20%{transform:rotate(16deg)}45%{transform:rotate(-11deg)}65%{transform:rotate(6deg)}82%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+.bulb.flick .glass-b{animation:flick .45s steps(1)}
+@keyframes flick{0%{fill:rgba(255,255,255,.08);filter:none}25%{fill:rgba(255,236,170,.95)}45%{fill:rgba(255,255,255,.08);filter:none}70%{fill:rgba(255,236,170,.95)}}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+.lampfx{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--bx,90%) var(--by,34px),rgba(255,226,140,.55),rgba(255,226,140,.12) 22%,transparent 55%)}
+.lampfx.on{animation:lampOn .9s ease-out}
+@keyframes lampOn{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+body{transition:background .5s,color .5s}
+/* ===== T3 DECO MEWAH (black & gold art-deco) ===== */
+html.t3{--bg:#0C0B09;--card:#14120E;--ink:#F1E9D8;--mut:#A89C83;--line:rgba(201,162,74,.3);--r:0px}
+html.t3 h1,html.t3 h2,html.t3 h3,html.t3 .fbig,html.t3 .logo{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+html.t3 .hero h1{font-weight:500;letter-spacing:.04em}
+html.t3 .hero::after{background:linear-gradient(180deg,rgba(12,11,9,.6),rgba(12,11,9,.1) 30%,rgba(12,11,9,.1) 45%,rgba(12,11,9,.95))}
+html.t3 .nav.solid{background:rgba(12,11,9,.9)}
+html.t3 .pill{background:none;color:var(--gold2);letter-spacing:.35em;padding:0}
+html.t3 .pill::before,html.t3 .pill::after{content:"◆";font-size:8px;margin:0 10px;vertical-align:2px}
+html.t3 .head,html.t3 .tabs{justify-content:center;text-align:center}
+html.t3 .head h2{margin-inline:auto}
+html.t3 .btn{border-radius:0;letter-spacing:.18em;text-transform:uppercase;font-size:11px;padding:14px 22px}
+html.t3 .btn-gold,html.t3 .btn-navy{background:none;color:var(--gold2);border:1px solid var(--gold)}
+html.t3 .btn-light{background:var(--gold);color:#0C0B09}
+html.t3 .tab{background:none;border:0;border-radius:0;color:var(--mut);letter-spacing:.15em;text-transform:uppercase;font-size:11px}
+html.t3 .tab.on{background:none;color:var(--gold2);border-bottom:1px solid var(--gold2)}
+html.t3 .card{background:var(--card);border:1px solid var(--line);outline:1px solid var(--line);outline-offset:-8px;border-radius:0;padding:16px;box-shadow:none;text-align:center}
+html.t3 .card:hover{border-color:var(--gold)}
+html.t3 .ph{border-radius:0}
+html.t3 .badge{border-radius:0;background:#0C0B09;color:var(--gold2);border:1px solid var(--gold);letter-spacing:.2em}
+html.t3 .badge.projek{background:var(--gold);color:#0C0B09}
+html.t3 .cb{align-items:center}
+html.t3 .cb h3{font-size:20px;letter-spacing:.08em}
+html.t3 .price{font-family:"Cormorant Garamond",serif;color:var(--gold2);font-size:26px;font-weight:600}
+html.t3 .specs{justify-content:center;border-top:1px solid var(--line);width:100%}
+html.t3 #servis{background:#100E0B!important}
+html.t3 .sub{color:var(--mut)}
+html.t3 .acc,html.t3 .ai{border-color:var(--line)}
+html.t3 .aq .ico,html.t3 .ul .ico{color:var(--gold2)}
+html.t3 .area,html.t3 .xwrap,html.t3 .simg,html.t3 .band{border-radius:0!important}
+html.t3 .faq .ai{background:var(--card);border:1px solid var(--line);border-radius:0}
+html.t3 .loan{background:#14120E;border:1px solid var(--line);outline:1px solid var(--line);outline-offset:-10px;border-radius:0}
+html.t3 footer{background:#070605;border-top:1px solid var(--line)}
+html.t3 .sh{background:#0C0B09}
+html.t3 .spec div{background:var(--card);border:1px solid var(--line);border-radius:0}
+html.t3 .thumbs{background:#0C0B09;border-color:var(--line)}
+html.t3 .btn-line{background:none;color:var(--gold2);border-color:var(--gold)}
+html.t3 .dchip{color:var(--gold2)}
+
+/* Deco Cerah (lampu hidup) */
+html.t3.light{--bg:#F5EFE2;--card:#FFFCF5;--ink:#1C170E;--mut:#6B5F49;--line:rgba(150,112,36,.35)}
+html.t3.light .pill,html.t3.light .price,html.t3.light .tab.on,html.t3.light .btn-gold,html.t3.light .btn-navy,html.t3.light .btn-line,html.t3.light .dchip,html.t3.light .aq .ico,html.t3.light .ul .ico{color:#8A6519}
+html.t3.light .tab.on{border-bottom-color:#8A6519}
+html.t3.light .btn-gold,html.t3.light .btn-navy,html.t3.light .btn-line{border-color:#B08A3A}
+html.t3.light .xtext .pill,html.t3.light .band .pill{color:var(--gold2)}
+html.t3.light #servis{background:#EDE4D1!important}
+html.t3.light .loan{background:var(--navy);color:#fff}
+html.t3.light .loan .pill,html.t3.light .loan .btn-gold{color:var(--gold2);border-color:var(--gold)}
+html.t3.light .sh,html.t3.light .thumbs{background:var(--bg)}
+html.t3.light .spec div,html.t3.light .faq .ai,html.t3.light .card{background:var(--card)}
+html.t3.light .card{box-shadow:0 14px 30px -22px rgba(60,40,10,.45)}
+
+/* HOME button (atas WhatsApp) */
+.homeb{position:fixed;z-index:105;right:22px;bottom:86px;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#14120E;color:var(--gold2);border:1px solid rgba(201,162,74,.55);box-shadow:0 10px 26px -10px rgba(0,0,0,.6);transition:transform .2s,background .25s}
+.homeb svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.homeb:active{transform:scale(.9)}
+html.t3.light .homeb{background:var(--navy)}
 </style>
 </head>
 <body>
+<script>try{if(localStorage.getItem("fyzTheme")==="light")document.documentElement.classList.add("light");}catch(e){}</script>
+<div class="lampfx" id="lampfx"></div>
 
 <nav class="nav" id="nav">
   <div class="wrap">
@@ -397,6 +478,8 @@ body.noscroll{overflow:hidden}
   </div>
 </footer>
 
+<button class="homeb" id="homeBtn" type="button" aria-label="Utama"><svg viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h4.5v-5.5h3V20H18V9.5"/></svg></button>
+<button class="bulb" id="bulbBtn" type="button" aria-label="Dark mode"><svg viewBox="0 0 24 24"><g class="rays"><path class="ray" d="M12 0.5v1.6M3.6 4l1.2 1.1M20.4 4l-1.2 1.1M1 10.5h1.6M21.4 10.5H23"/></g><path class="glass-b" d="M12 3.2a6.6 6.6 0 0 0-3.9 11.9c.7.5 1.1 1.3 1.1 2.1v.6h5.6v-.6c0-.8.4-1.6 1.1-2.1A6.6 6.6 0 0 0 12 3.2Z"/><path class="fil" d="M10.2 14.8l.9-4 .9 1.6.9-1.6.9 4"/><path class="base" d="M9.4 19.6h5.2M10.2 21.8h3.6"/></svg></button>
 <a class="wa-float wa" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3Z"/></svg></a>
 
 <script>
@@ -698,6 +781,36 @@ window.addEventListener("hashchange",route);
 function renderAll(){ applyText(); heroTitle(); stats(); tabs(); cards(); svc(); areas(); loan(); faq(); fcats(); }
 document.getElementById("langBtn").addEventListener("click",function(){ lang = lang==="en"?"ms":"en"; try{localStorage.setItem("fyzLang",lang);}catch(e){} renderAll(); route(); });
 renderAll(); onScroll(); route();
+
+
+document.getElementById("homeBtn").addEventListener("click",function(){
+  if(dEl&&dEl.classList.contains("open")){ closeDetail(); setTimeout(function(){ window.scrollTo({top:0,behavior:"smooth"}); },60); }
+  else window.scrollTo({top:0,behavior:"smooth"});
+});
+/* BULB dark mode toggle */
+(function(){
+  var b=document.getElementById("bulbBtn"), fx=document.getElementById("lampfx"), root=document.documentElement;
+  function label(){ var d=!root.classList.contains("light"); b.setAttribute("aria-label", d?(lang==="en"?"Turn on the lights":"Hidupkan lampu"):(lang==="en"?"Turn off the lights":"Padam lampu")); b.title=b.getAttribute("aria-label"); }
+  label(); document.getElementById("langBtn").addEventListener("click",label);
+  b.addEventListener("click",function(){
+    var toDark=root.classList.contains("light"), r=b.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
+    b.classList.remove("swing","flick"); void b.offsetWidth; b.classList.add("swing"); if(!toDark) b.classList.add("flick");
+    function apply(){ root.classList.toggle("light",!toDark); try{localStorage.setItem("fyzTheme",toDark?"dark":"light");}catch(e){} label(); }
+    var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setTimeout(function(){
+      if(!toDark){ fx.style.setProperty("--bx",x+"px"); fx.style.setProperty("--by",y+"px"); fx.classList.remove("on"); void fx.offsetWidth; fx.classList.add("on"); }
+      if(document.startViewTransition&&!reduce){
+        var R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+        var vt=document.startViewTransition(apply);
+        vt.ready.then(function(){
+          var c=["circle(0px at "+x+"px "+y+"px)","circle("+R+"px at "+x+"px "+y+"px)"];
+          root.animate({clipPath:c},{duration:toDark?650:800,easing:"cubic-bezier(.6,.05,.3,1)",pseudoElement:"::view-transition-new(root)"});
+        });
+      } else apply();
+    }, toDark?120:420);
+  });
+})();
+
 if(location.hash && !/^#l-/.test(location.hash)){ var sec=location.hash.slice(1); try{ history.replaceState(null,"",siteUrl()); }catch(e){} setTimeout(function(){ goTo(sec); },50); }
 })();
 </script>
