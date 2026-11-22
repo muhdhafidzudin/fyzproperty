@@ -1505,6 +1505,69 @@
 "jenis": "Single-storey Terrace (Corner Lot)",
 "keluasan": "Land 169 m² (1,819 sq ft)"
 }
+},
+{
+"id": "serikelubi",
+"cat": "subsale",
+"tajuk": "Taman Seri Kelubi, Jitra",
+"kawasan": "Taman Seri Kelubi, Jitra",
+"daerah": "Kubang Pasu",
+"negeri": "Kedah",
+"jenis": "Teres 1 Tingkat (Fully Renovated)",
+"harga": 295000,
+"hargaPrefix": "",
+"hargaLabel": "RM295,000",
+"nego": false,
+"bilik": "4",
+"bilikAir": "2+1",
+"keluasan": "1,539 kps",
+"pegangan": "Freehold",
+"lot": "Lot Melayu",
+"ciri": [
+"Fully renovated",
+"FREE 2 aircond",
+"FREE wardrobe",
+"FREE kitchen cabinet"
+],
+"dekat": [
+"Pekan Jitra",
+"Sekolah Kebangsaan & Menengah",
+"Bank & kawasan komersial",
+"Fantasia Aquapark",
+"C-Mart BDI",
+"Politeknik Sultan Abdul Halim"
+],
+"foto": [
+"49cf2de7fb814ccd274ee1abf21d8775",
+"67bfbe5fd56dbec759aaab5d22583145",
+"6f060f3f3537a8ab111694f49330f51a",
+"83bf3e95f48162b98c214e8bedde0de0",
+"3f12c24783cb62948999ee51fb5882c3",
+"c963b4a3be7a6013063c54886f88d215",
+"caf680832943caf0d5c9d1b2dab60156",
+"df6f88df222f186cdc3c90fd08e3947c",
+"ce98c33a8a268a9d73fe66c31fc93573",
+"5b5aae14ffdf250029166cc014b6060e"
+],
+"en": {
+"jenis": "Single-storey Terrace (Fully Renovated)",
+"keluasan": "1,539 sq ft",
+"hargaLabel": "RM295,000",
+"ciri": [
+"Fully renovated",
+"FREE 2 air-conditioners",
+"FREE wardrobe",
+"FREE kitchen cabinet"
+],
+"dekat": [
+"Jitra town",
+"Primary & secondary schools",
+"Banks & commercial area",
+"Fantasia Aquapark",
+"C-Mart BDI",
+"Sultan Abdul Halim Polytechnic"
+]
+}
 }
 ]
 }
