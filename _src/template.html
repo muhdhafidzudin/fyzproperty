@@ -2,6 +2,7 @@
 <html lang="ms" class="t3">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" id="themeColor" content="#0C0B09">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FYZ PROPERTY</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -334,10 +335,21 @@ html.t3.light .card{box-shadow:0 14px 30px -22px rgba(60,40,10,.45)}
 .homeb svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .homeb:active{transform:scale(.9)}
 html.t3.light .homeb{background:var(--navy)}
+
+/* Deco Cerah: nav ikut cerah supaya tiada "kotak" gelap */
+html.t3.light .nav.solid{background:rgba(245,239,226,.94);box-shadow:0 1px 0 rgba(150,112,36,.25)}
+html.t3.light .nav.solid .logo{color:#1C170E}
+html.t3.light .nav.solid .logo b{color:#8A6519}
+html.t3.light .nav.solid .links{color:#3a3122}
+html.t3.light .nav.solid .lang{color:#1C170E;border-color:rgba(28,23,14,.3)}
+html.t3.light .nav.solid .btn-gold{color:#8A6519;border-color:#B08A3A}
+/* elak animasi lain bertembung semasa tukar mod */
+html.vt-run *{transition:none!important}
+::view-transition-group(root){animation-duration:0s}
 </style>
 </head>
 <body>
-<script>try{if(localStorage.getItem("fyzTheme")==="light")document.documentElement.classList.add("light");}catch(e){}</script>
+<script>try{if(localStorage.getItem("fyzTheme")==="light"){document.documentElement.classList.add("light");var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content","#F5EFE2");}}catch(e){}</script>
 <div class="lampfx" id="lampfx"></div>
 
 <nav class="nav" id="nav">
@@ -795,13 +807,13 @@ document.getElementById("homeBtn").addEventListener("click",function(){
   b.addEventListener("click",function(){
     var toDark=root.classList.contains("light"), r=b.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
     b.classList.remove("swing","flick"); void b.offsetWidth; b.classList.add("swing"); if(!toDark) b.classList.add("flick");
-    function apply(){ root.classList.toggle("light",!toDark); try{localStorage.setItem("fyzTheme",toDark?"dark":"light");}catch(e){} label(); }
+    function apply(){ var tc=document.querySelector('meta[name="theme-color"]'); if(tc) tc.setAttribute("content",toDark?"#0C0B09":"#F5EFE2"); root.classList.toggle("light",!toDark); try{localStorage.setItem("fyzTheme",toDark?"dark":"light");}catch(e){} label(); }
     var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
     setTimeout(function(){
       if(!toDark){ fx.style.setProperty("--bx",x+"px"); fx.style.setProperty("--by",y+"px"); fx.classList.remove("on"); void fx.offsetWidth; fx.classList.add("on"); }
       if(document.startViewTransition&&!reduce){
         var R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
-        var vt=document.startViewTransition(apply);
+        root.classList.add("vt-run"); var vt=document.startViewTransition(apply); vt.finished.then(function(){ root.classList.remove("vt-run"); },function(){ root.classList.remove("vt-run"); });
         vt.ready.then(function(){
           var c=["circle(0px at "+x+"px "+y+"px)","circle("+R+"px at "+x+"px "+y+"px)"];
           root.animate({clipPath:c},{duration:toDark?650:800,easing:"cubic-bezier(.6,.05,.3,1)",pseudoElement:"::view-transition-new(root)"});
